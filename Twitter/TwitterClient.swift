@@ -25,19 +25,20 @@ class TwitterClient: BDBOAuth1SessionManager {
         return Static.instance
     }
     
-    func homeTimeLineWithParams(params: NSDictionary?, completion: (tweets: [Tweet]?, error: NSError?) -> ()) {
+    func homeTimeLineWithParams(params: NSDictionary?, completion: (tweets: [Tweet]!, error: NSError?) -> ()) {
         GET("1.1/statuses/home_timeline.json", parameters: nil, success: { (operation: NSURLSessionDataTask!, response: AnyObject?) -> Void in
-            //                print("home timeline: \(response)")
+//            print("home timeline: \(response)")
             let tweets = Tweet.tweetswithArray(response as! [NSDictionary])
             
 //            for tweet in tweets {
-//                print("text: \(tweet.text), created: \(tweet.createdAt)")
+//                print("created: \(tweet.retweetCount)")
 //            }
             completion(tweets: tweets, error: nil)
         }, failure: { (operation: NSURLSessionDataTask?, error: NSError!) -> Void in
             print("error getting home timeline")
             completion(tweets: nil, error: error)
         })
+        
     }
     
     func loginWithCompletion(completion: (user: User?, error: NSError?) -> ()) {
@@ -80,5 +81,38 @@ class TwitterClient: BDBOAuth1SessionManager {
         }
 
     }
+    
+    func retweet(id: Int) {
+        POST("1.1/statuses/retweet/\(id).json", parameters: nil, success: { (operation, response) -> Void in
+            print("succesfully retweeted!")
+            
+            }, failure: { (operation, error) -> Void in
+                print("error retweeting")
+        })
+    }
+    
+    func favoriteTweet(id: Int) {
+        POST("1.1/favorites/create.json", parameters: ["id": id], success: { (operation, response) -> Void in
+            print("succesfully favorited!")
+            
+            }, failure: { (operation, error) -> Void in
+                print("error favoriting")
+        })
+    }
+    
+    func unretweet(id: Int) {
+        POST("1.1/statuses/unretweet/\(id).json", parameters: nil, success: { (operation, response) -> Void in
+            print("successfully unretweeted!")
+            }, failure: { (operation, error) -> Void in
+                print("error unretweeting")
+        })
+    }
 
+    func unfavoriteTweet(id: Int) {
+        POST("1.1/favorites/destroy.json", parameters: ["id": id], success: { (operation, response) -> Void in
+            print("successfully unfavorited!")
+            }, failure: { (operation, error) -> Void in
+                print("error unfavoriting")
+        })
+    }
 }

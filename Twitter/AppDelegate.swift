@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("Current user detected: \(User.currentUser?.name)")
             
             
-            let vc = storyboard.instantiateViewControllerWithIdentifier("TweetsViewController") as UIViewController
+            let vc = storyboard.instantiateViewControllerWithIdentifier("NavigationViewController") as! UINavigationController
             window?.rootViewController = vc
         }
         
@@ -59,6 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        User.currentUser = nil
     }
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {

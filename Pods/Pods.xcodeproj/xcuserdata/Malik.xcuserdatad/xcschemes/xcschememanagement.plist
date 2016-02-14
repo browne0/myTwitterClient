@@ -19,20 +19,30 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Timepiece.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0C8AE7D55BD5DDC5640DF28E35FA1C55</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1C3436CEA5C3D39764C5F54374794ECB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>445B3D47256376A8FB06D383FDBEA0C4</key>
+		<key>3BD9F8578C128187E67D24716FBB6DCF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D7E3EBC9D05B705EC879D01082CF9AA2</key>
+		<key>445B3D47256376A8FB06D383FDBEA0C4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -13,15 +13,15 @@ class ViewController: UIViewController {
 
     var tweets: [Tweet]?
     
+    @IBOutlet weak var loginView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        TwitterClient.sharedInstance.homeTimeLineWithParams(nil, completion: { (tweets, error) -> () in
+        loginView.layer.cornerRadius = 3
+        loginView.clipsToBounds = true
         
-            self.tweets = tweets
-            
-        })
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,8 +33,8 @@ class ViewController: UIViewController {
         TwitterClient.sharedInstance.loginWithCompletion() {
             (user: User?, error: NSError?) in
             if user != nil {
-                self.performSegueWithIdentifier("loginSegue", sender: self)
                 // perform segue
+                self.performSegueWithIdentifier("loginSegue", sender: self)
             } else {
                 // handle login error
             }
