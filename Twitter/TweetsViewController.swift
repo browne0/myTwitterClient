@@ -11,6 +11,7 @@ import UIKit
 class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     var tweets: [Tweet]!
+    var selectedTweet: Tweet!
     var isMoreDataLoading = false
     
     @IBOutlet weak var tableView: UITableView!
@@ -23,11 +24,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         // Do any additional setup after loading the view.
         
-        TwitterClient.sharedInstance.homeTimeLineWithParams(nil, completion: { (tweets, error) -> () in
-            
-            self.tweets = tweets
-            self.tableView.reloadData()
-        })
+        loadData()
         
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -42,6 +39,19 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         imageView.contentMode = .Center
         imageView.image = twitterLogo
         self.navigationItem.titleView = imageView
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        loadData()
+    }
+    
+    func loadData() {
+        TwitterClient.sharedInstance.homeTimeLineWithParams(nil, completion: { (tweets, error) -> () in
+            
+            self.tweets = tweets
+            self.tableView.reloadData()
+        })
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,6 +67,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell", forIndexPath: indexPath) as! TweetCell
         
         cell.tweet = tweets[indexPath.row]
+        cell.accessoryType = UITableViewCellAccessoryType.None
         
         return cell
     }
@@ -67,6 +78,10 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         } else {
             return 0
         }
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     func refreshControlAction(refreshControl: UIRefreshControl) {
@@ -83,15 +98,46 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             refreshControl.endRefreshing()
         })
     }
+    
+    
+    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        selectedTweet = tweets![indexPath.row]
+        
+        return indexPath
+    }
+    
+    
+    @IBAction func onProfileImageTap(sender: AnyObject) {
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview as! TweetCell
+        let indexPath = tableView.indexPathForCell(cell)
+        selectedTweet = tweets![indexPath!.row]
+    }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        let destinationViewController = segue.destinationViewController
+        
+        if let destinationViewController = destinationViewController as? TweetDetailsViewController {
+            destinationViewController.selectedTweet = selectedTweet
+            destinationViewController.user = selectedTweet.user
+            
+        }
+        
+        else if let destinationViewController = destinationViewController as? ProfileViewController {
+            destinationViewController.user = selectedTweet.user!
+        }
+        
+        else if let destinationViewController = destinationViewController as? CreateTweetViewController {
+            destinationViewController.user = User.currentUser
+        }
+        
     }
-    */
+
 
 }

@@ -22,6 +22,7 @@ class ViewController: UIViewController {
         loginView.layer.cornerRadius = 3
         loginView.clipsToBounds = true
         
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
     }
 
     override func didReceiveMemoryWarning() {

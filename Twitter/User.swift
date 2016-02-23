@@ -17,7 +17,11 @@ class User: NSObject {
     var name: String?
     var screenName: String!
     var profileImageUrl: String?
+    var bannerImageUrl: String?
     var tagline: String?
+    var tweetCount: Int!
+    var followingCount: Int!
+    var followersCount: Int!
     var dictionary: NSDictionary
     
     init(dictionary: NSDictionary) {
@@ -27,12 +31,15 @@ class User: NSObject {
         screenName = dictionary["screen_name"] as! String
         profileImageUrl = dictionary["profile_image_url"] as? String
         tagline = dictionary["description"] as? String
+        bannerImageUrl = dictionary["profile_background_image_url"] as? String
+        tweetCount = dictionary["statuses_count"] as! Int
+        followingCount = dictionary["friends_count"] as! Int
+        followersCount = dictionary["followers_count"] as! Int
     }
     
     func logout() {
         User.currentUser = nil
         TwitterClient.sharedInstance.requestSerializer.removeAccessToken()
-        
         NSNotificationCenter.defaultCenter().postNotificationName(userDidLogoutNotification, object: nil)
     }
     

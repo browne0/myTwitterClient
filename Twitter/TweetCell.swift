@@ -55,7 +55,6 @@ class TweetCell: UITableViewCell {
             
             favoriteCountLabel.text = String(tweet.favoriteCount)
             retweetCountLabel.text = String(tweet.retweetCount)
-            createdAtLabel.text = tweet.createdAtString
         }
     }
     override func awakeFromNib() {
@@ -71,12 +70,14 @@ class TweetCell: UITableViewCell {
         {
         TwitterClient.sharedInstance.retweet(tweetID)
         retweetImageView.setImage(UIImage(named: "retweet-action-on"), forState: .Normal)
+        retweetCountLabel.text = String(tweet.retweetCount + 1)
         }
         
         else if (retweetImageView.imageView?.image == UIImage(named: "retweet-action-on"))
         {
             TwitterClient.sharedInstance.unretweet(tweetID)
             retweetImageView.setImage(UIImage(named: "retweet-action"), forState: .Normal)
+            retweetCountLabel.text = String(tweet.retweetCount)
         }
     }
     
@@ -85,12 +86,14 @@ class TweetCell: UITableViewCell {
         {
         TwitterClient.sharedInstance.favoriteTweet(tweetID)
         favoriteImageView.setImage(UIImage(named: "like-action-on"), forState: .Normal)
+        favoriteCountLabel.text = String(tweet.favoriteCount + 1)
         }
         
         else if (favoriteImageView.imageView?.image == UIImage(named: "like-action-on"))
         {
             TwitterClient.sharedInstance.unfavoriteTweet(tweetID)
             favoriteImageView.setImage(UIImage(named: "like-action"), forState: .Normal)
+            favoriteCountLabel.text = String(tweet.favoriteCount)
         }
     }
     

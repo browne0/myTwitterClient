@@ -28,19 +28,6 @@ class Tweet: NSObject {
         retweet = dictionary["retweeted"] as? Bool
         favorite = dictionary["favorited"] as? Bool
         
-//        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
-//        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
-//        sf.setLenient(true);
-//        String relativeDate = "";
-//        
-//        try {
-//            long dateMillis = sf.parse(rawJsonDate).getTime();
-//            relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis,
-//                System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-        
         let twitterFormat = NSDateFormatter()
         //Wed Dec 01 17:08:03 +0000 2010
         
